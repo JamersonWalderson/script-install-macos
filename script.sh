@@ -29,13 +29,21 @@ apps=(
     "microsoft-edge"
     "drawio"
     "wpsoffice"
+    "discord"
+    "dbeaver-community"
+    "android-studio"
+    "postman"
+    "libreoffice"
+    "telegram"
 )
 
-# Iterate over the array of applications and install each one using Homebrew if it's not already installed
-for app in "${apps[@]}"
-do
-    if ! command -v "$app" &> /dev/null
-    then
-        brew install --cask "$app"
+for app in "${brewlist[@]}"; do
+  if brew list --cask --versions | grep -q "$app"; then
+    echo "O aplicativo $app já está instalado"
+  else
+    echo "Instalando $app"
+    if ! brew install --cask "$app"; then
+      echo "Erro: Falha ao instalar $app"
     fi
+  fi
 done
